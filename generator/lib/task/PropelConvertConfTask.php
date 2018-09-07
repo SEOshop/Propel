@@ -384,6 +384,7 @@ class PropelConvertConfTask extends AbstractPropelDataModelTask
                     } // if (!$table->isReferenceOnly())
                 }
 
+                echo 'here3';
                 $phpconfClassmap = array_merge($phpconfClassmap, $classMap);
             }
         }

@@ -159,6 +159,7 @@ class VendorInfo extends XMLElement
      */
     public function getMergedVendorInfo(VendorInfo $merge)
     {
+        echo 'here4';
         $newParams = array_merge($this->getParameters(), $merge->getParameters());
         $newInfo = new VendorInfo($this->getType());
         $newInfo->setParameters($newParams);

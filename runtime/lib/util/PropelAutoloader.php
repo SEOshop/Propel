@@ -71,6 +71,7 @@ class PropelAutoloader
      */
     public function addClassPaths($classMap)
     {
+        echo 'here1';
         $this->classes = array_merge($this->classes, $classMap);
     }
 
