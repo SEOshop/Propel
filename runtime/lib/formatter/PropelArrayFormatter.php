@@ -135,31 +135,38 @@ class PropelArrayFormatter extends PropelFormatter
             if (!isset($this->alreadyHydratedObjects[$relAlias][$key])) {
 
                 if ($secondaryObject->isPrimaryKeyNull()) {
+                    var_dump('HERE1');
                     $this->alreadyHydratedObjects[$relAlias][$key] = array();
                 } else {
+                    var_dump('HERE2');
                     $this->alreadyHydratedObjects[$relAlias][$key] = $secondaryObject->toArray();
                 }
             }
 
             if ($modelWith->isPrimary()) {
+                var_dump('HERE3');
                 $arrayToAugment = &$this->alreadyHydratedObjects[$this->class][$mainKey];
             } else {
+                var_dump('HERE4');
                 $arrayToAugment = &$hydrationChain[$modelWith->getLeftPhpName()];
             }
 
             if ($modelWith->isAdd()) {
                 if (!isset($arrayToAugment[$modelWith->getRelationName()]) || !in_array($this->alreadyHydratedObjects[$relAlias][$key], $arrayToAugment[$modelWith->getRelationName()])) {
+                    var_dump('HERE5');
                     $arrayToAugment[$modelWith->getRelationName()][] = &$this->alreadyHydratedObjects[$relAlias][$key];
                 }
             } else {
+                var_dump('HERE6');
                 $arrayToAugment[$modelWith->getRelationName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
             }
-
+            var_dump('HERE7');
             $hydrationChain[$modelWith->getRightPhpName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
         }
 
         // columns added using withColumn()
         foreach ($this->getAsColumns() as $alias => $clause) {
+            var_dump('HERE8');
             $this->alreadyHydratedObjects[$this->class][$mainKey][$alias] = $row[$col];
             $col++;
         }
