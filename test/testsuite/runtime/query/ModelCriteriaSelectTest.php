@@ -141,6 +141,20 @@ class ModelCriteriaSelectTest extends BookstoreTestBase
         $this->assertEquals($expectedSQL, $this->con->getLastExecutedQuery(), 'findOne() called after select(string) allows for where() statements');
     }
 
+    public function testSelectStringAuthorFindOne()
+    {
+        BookstoreDataPopulator::depopulate($this->con);
+        BookstoreDataPopulator::populate($this->con);
+
+        $c = new ModelCriteria('bookstore', 'Author');
+        $c->where('Author.FirstName = ?', 'Neal');
+        $c->select('FirstName');
+        $author = $c->findOne($this->con);
+        $this->assertEquals(count($author), 1, 'findOne() called after select(string) allows for where() statements');
+        $expectedSQL = "SELECT author.FIRST_NAME AS \"FirstName\" FROM `author` WHERE author.FIRST_NAME = 'Neal' LIMIT 1";
+        $this->assertEquals($expectedSQL, $this->con->getLastExecutedQuery(), 'findOne() called after select(string) allows for where() statements');
+    }
+
     public function testSelectStringJoin()
     {
         BookstoreDataPopulator::depopulate($this->con);
