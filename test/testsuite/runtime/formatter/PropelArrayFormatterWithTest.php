@@ -251,14 +251,14 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
         BookPeer::clearInstancePool();
         AuthorPeer::clearInstancePool();
         ReviewPeer::clearInstancePool();
+        $c = new ModelCriteria('bookstore', 'Book');
+        $c->setFormatter(ModelCriteria::FORMAT_ARRAY);
+        $c->add(BookPeer::ISBN, '043935806X');
+        $c->leftJoin('Book.Review');
+        $c->with('Review');
         $con = Propel::getConnection(BookPeer::DATABASE_NAME);
-        $books = BookQuery::create()
-            ->setFormatter(ModelCriteria::FORMAT_ARRAY)
-            ->add(BookPeer::ISBN, '043935806X')
-            ->joinWith('Review')
-            ->find($con);
+        $books = $c->find($con);
         $this->assertEquals(1, count($books), 'with() does not duplicate the main object');
-        var_dump($books);
         $book = $books[0];
         $this->assertEquals($book['Title'], 'Harry Potter and the Order of the Phoenix', 'Main object is correctly hydrated');
         $this->assertEquals(array('Id', 'Title', 'ISBN', 'Price', 'PublisherId', 'AuthorId', 'Reviews'), array_keys($book), 'with() adds a plural index for the one to many relationship');
