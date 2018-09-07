@@ -245,29 +245,6 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
         $books = $c->find();
     }
 
-    public function testFindOneWithOneToMany()
-    {
-        BookstoreDataPopulator::populate();
-        BookPeer::clearInstancePool();
-        AuthorPeer::clearInstancePool();
-        ReviewPeer::clearInstancePool();
-        $c = new ModelCriteria('bookstore', 'Book');
-        $c->add(BookPeer::ISBN, '043935806X');
-        $c->leftJoin('Book.Review');
-        $c->with('Review');
-        $con = Propel::getConnection(BookPeer::DATABASE_NAME);
-        $books = $c->find($con);
-        var_dump($books);
-        $this->assertEquals(1, count($books), 'with() does not duplicate the main object');
-        $book = $books[0];
-        $this->assertEquals($book['Title'], 'Harry Potter and the Order of the Phoenix', 'Main object is correctly hydrated');
-        $this->assertEquals(array('Id', 'Title', 'ISBN', 'Price', 'PublisherId', 'AuthorId', 'Reviews'), array_keys($book), 'with() adds a plural index for the one to many relationship');
-        $reviews = $book['Reviews'];
-        $this->assertEquals(2, count($reviews), 'Related objects are correctly hydrated');
-        $review1 = $reviews[0];
-        $this->assertEquals(array('Id', 'ReviewedBy', 'ReviewDate', 'Recommended', 'Status', 'BookId'), array_keys($review1), 'with() Related objects are correctly hydrated');
-    }
-
     public function testFindOneWithOneToManyCustomOrder()
     {
         $author1 = new Author();
