@@ -40,6 +40,8 @@ class PropelArrayFormatter extends PropelFormatter
                 $collection[] = $object;
             }
         }
+
+        var_dump($collection);
         $this->currentObjects = array();
         $this->alreadyHydratedObjects = array();
         $stmt->closeCursor();
