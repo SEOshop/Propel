@@ -424,6 +424,7 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
 
     public function testFindPkWithOneToMany()
     {
+        var_dump('testFindPkWithOneToMany');
         BookstoreDataPopulator::populate();
         BookPeer::clearInstancePool();
         AuthorPeer::clearInstancePool();
@@ -439,5 +440,6 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
             ->findPk($pk, $con);
         $reviews = $book['Reviews'];
         $this->assertEquals(2, count($reviews), 'Related objects are correctly hydrated');
+        var_dump('testFindPkWithOneToMany -----------------------');
     }
 }
