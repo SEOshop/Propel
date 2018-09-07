@@ -110,10 +110,6 @@ class PropelArrayFormatter extends PropelFormatter
         // related objects added using with()
         foreach ($this->getWith() as $relAlias => $modelWith) {
 
-            if ($modelWith->getModelName() == 'Review') {
-                var_dump($modelWith->isSingleTableInheritance());
-            }
-
             // determine class to use
             if ($modelWith->isSingleTableInheritance()) {
                 $class = call_user_func(array($modelWith->getModelPeerName(), 'getOMClass'), $row, $col);
@@ -155,6 +151,12 @@ class PropelArrayFormatter extends PropelFormatter
             }
 
             $hydrationChain[$modelWith->getRightPhpName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
+
+            if ($modelWith->getModelName() == 'Review') {
+                var_dump($this->alreadyHydratedObjects);
+                var_dump($hydrationChain);
+                var_dump($arrayToAugment);
+            }
         }
 
         // columns added using withColumn()
