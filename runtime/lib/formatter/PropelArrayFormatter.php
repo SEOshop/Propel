@@ -171,7 +171,8 @@ class PropelArrayFormatter extends PropelFormatter
         } else {
             // we still need to return a reference to something to avoid a warning
             var_dump('EMPTY');
-            return [];
+            $emptyVariable = [];
+            return $emptyVariable;
         }
     }
 
