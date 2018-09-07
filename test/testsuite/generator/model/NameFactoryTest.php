@@ -113,6 +113,7 @@ class NameFactoryTest extends BaseTestCase
     {
         $appData = new AppData(new MysqlPlatform());
         $this->database = new Database();
+        echo 'asd';
         $appData->addDatabase($this->database);
     }
 
