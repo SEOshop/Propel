@@ -9,9 +9,9 @@
  */
 
 require_once dirname(__FILE__) . '/../../../tools/helpers/BaseTestCase.php';
-//require_once dirname(__FILE__) . '/../../../../generator/lib/model/NameFactory.php';
-//require_once dirname(__FILE__) . '/../../../../generator/lib/platform/MysqlPlatform.php';
-//require_once dirname(__FILE__) . '/../../../../generator/lib/model/AppData.php';
+require_once dirname(__FILE__) . '/../../../../generator/lib/model/NameFactory.php';
+require_once dirname(__FILE__) . '/../../../../generator/lib/platform/MysqlPlatform.php';
+require_once dirname(__FILE__) . '/../../../../generator/lib/model/AppData.php';
 
 /**
  * <p>Unit tests for class <code>NameFactory</code> and known
