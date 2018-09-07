@@ -110,6 +110,10 @@ class PropelArrayFormatter extends PropelFormatter
         // related objects added using with()
         foreach ($this->getWith() as $relAlias => $modelWith) {
 
+            if ($modelWith->getModelName() == 'Review') {
+                echo 'Here1';
+            }
+
             // determine class to use
             if ($modelWith->isSingleTableInheritance()) {
                 $class = call_user_func(array($modelWith->getModelPeerName(), 'getOMClass'), $row, $col);
