@@ -24,7 +24,7 @@ abstract class BaseTestCase extends PHPUnit_Framework_TestCase
     /**
      * Conditional compilation flag.
      */
-    const DEBUG = true;
+    const DEBUG = false;
 
 }
 

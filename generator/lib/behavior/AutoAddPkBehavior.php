@@ -46,6 +46,7 @@ class AutoAddPkBehavior extends Behavior
     {
         $table = $this->getTable();
         if (!$table->hasPrimaryKey() && !$table->hasBehavior('concrete_inheritance')) {
+            echo 'here1';
             $columnAttributes = array_merge(array('primaryKey' => 'true'), $this->getParameters());
             $this->getTable()->addColumn($columnAttributes);
         }

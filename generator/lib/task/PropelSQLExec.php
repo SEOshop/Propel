@@ -230,6 +230,7 @@ class PropelSQLExec extends Task
                     $this->log(sprintf('  Loading statements from "%s"', $fullFileName));
                     $fileStatements = PropelSQLParser::parseFile($fullFileName);
                     $this->log(sprintf('    %d statements to execute', count($fileStatements)), Project::MSG_VERBOSE);
+                    echo 'here7';
                     $statements[$database] = array_merge($statements[$database], $fileStatements);
                 } else {
                     $this->log(sprintf('File "%s" in sqldbmap does not exist, skipping it.', $fullFileName));

@@ -63,30 +63,30 @@ class NameFactoryTest extends BaseTestCase
      */
     public function __construct()
     {
-//        self::$INPUTS = array(
-//                array( array(self::makeString(61), "I", 1),
-//                        array(self::makeString(61), "I", 2),
-//                        array(self::makeString(65), "I", 3),
-//                        array(self::makeString(4), "FK", 1),
-//                        array(self::makeString(5), "FK", 2)
-//                    ),
-//                array(
-//                        array("MY_USER", NameGenerator::CONV_METHOD_UNDERSCORE),
-//                        array("MY_USER", NameGenerator::CONV_METHOD_PHPNAME),
-//                        array("MY_USER", NameGenerator::CONV_METHOD_NOCHANGE)
-//                    )
-//                );
-//
-//
-//        self::$OUTPUTS = array(
-//                        array(
-//                            self::makeString(60) . "_I_1",
-//                            self::makeString(60) . "_I_2",
-//                            self::makeString(60) . "_I_3",
-//                            self::makeString(4) . "_FK_1",
-//                            self::makeString(5) . "_FK_2"),
-//                        array("MyUser", "MYUSER", "MY_USER")
-//                    );
+        self::$INPUTS = array(
+                array( array(self::makeString(61), "I", 1),
+                        array(self::makeString(61), "I", 2),
+                        array(self::makeString(65), "I", 3),
+                        array(self::makeString(4), "FK", 1),
+                        array(self::makeString(5), "FK", 2)
+                    ),
+                array(
+                        array("MY_USER", NameGenerator::CONV_METHOD_UNDERSCORE),
+                        array("MY_USER", NameGenerator::CONV_METHOD_PHPNAME),
+                        array("MY_USER", NameGenerator::CONV_METHOD_NOCHANGE)
+                    )
+                );
+
+
+        self::$OUTPUTS = array(
+                        array(
+                            self::makeString(60) . "_I_1",
+                            self::makeString(60) . "_I_2",
+                            self::makeString(60) . "_I_3",
+                            self::makeString(4) . "_FK_1",
+                            self::makeString(5) . "_FK_2"),
+                        array("MyUser", "MYUSER", "MY_USER")
+                    );
 
     }
 
@@ -111,9 +111,9 @@ class NameFactoryTest extends BaseTestCase
     /** Sets up the Propel model. */
     public function setUp()
     {
-//        $appData = new AppData(new MysqlPlatform());
-//        $this->database = new Database();
-//        $appData->addDatabase($this->database);
+        $appData = new AppData(new MysqlPlatform());
+        $this->database = new Database();
+        $appData->addDatabase($this->database);
     }
 
     /**
@@ -121,16 +121,16 @@ class NameFactoryTest extends BaseTestCase
      */
     public function testNames()
     {
-//        for ($algoIndex = 0; $algoIndex < count(self::$ALGORITHMS); $algoIndex++) {
-//            $algo = self::$ALGORITHMS[$algoIndex];
-//            $algoInputs = self::$INPUTS[$algoIndex];
-//            for ($i = 0; $i < count($algoInputs); $i++) {
-//                $inputs = $this->makeInputs($algo, $algoInputs[$i]);
-//                $generated = NameFactory::generateName($algo, $inputs);
-//                $expected = self::$OUTPUTS[$algoIndex][$i];
-//                $this->assertEquals($expected, $generated, "Algorithm " . $algo . " failed to generate an unique name");
-//            }
-//        }
+        for ($algoIndex = 0; $algoIndex < count(self::$ALGORITHMS); $algoIndex++) {
+            $algo = self::$ALGORITHMS[$algoIndex];
+            $algoInputs = self::$INPUTS[$algoIndex];
+            for ($i = 0; $i < count($algoInputs); $i++) {
+                $inputs = $this->makeInputs($algo, $algoInputs[$i]);
+                $generated = NameFactory::generateName($algo, $inputs);
+                $expected = self::$OUTPUTS[$algoIndex][$i];
+                $this->assertEquals($expected, $generated, "Algorithm " . $algo . " failed to generate an unique name");
+            }
+        }
     }
 
     /**

@@ -223,6 +223,7 @@ class PropelTableComparator
     public function compareIndices($caseInsensitive = false)
     {
         $indexDifferences = 0;
+        echo 'here8';
         $fromTableIndices = array_merge($this->getFromTable()->getIndices(), $this->getFromTable()->getUnices());
         $toTableIndices = array_merge($this->getToTable()->getIndices(), $this->getToTable()->getUnices());
 
