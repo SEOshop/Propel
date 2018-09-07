@@ -151,12 +151,6 @@ class PropelArrayFormatter extends PropelFormatter
             }
 
             $hydrationChain[$modelWith->getRightPhpName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
-
-            if ($modelWith->getModelName() == 'Review') {
-                var_dump($this->alreadyHydratedObjects);
-                var_dump($hydrationChain);
-                var_dump($arrayToAugment);
-            }
         }
 
         // columns added using withColumn()
@@ -164,6 +158,8 @@ class PropelArrayFormatter extends PropelFormatter
             $this->alreadyHydratedObjects[$this->class][$mainKey][$alias] = $row[$col];
             $col++;
         }
+
+        var_dump($this->alreadyHydratedObjects);
 
         if ($mainObjectIsNew) {
             return $this->alreadyHydratedObjects[$this->class][$mainKey];
