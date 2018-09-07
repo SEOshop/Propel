@@ -215,7 +215,6 @@ class Behavior extends XMLElement
         }
         $template = new PropelTemplate();
         $template->setTemplateFile($filePath);
-        echo 'here2';
         $vars = array_merge($vars, array('behavior' => $this));
 
         return $template->render($vars);

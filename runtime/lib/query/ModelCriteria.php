@@ -960,7 +960,6 @@ class ModelCriteria extends Criteria
 
         // merge with
         if ($criteria instanceof ModelCriteria) {
-            echo 'here3';
             $this->with = array_merge($this->getWith(), $criteria->getWith());
         }
 

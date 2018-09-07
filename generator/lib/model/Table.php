@@ -469,7 +469,6 @@ class Table extends ScopedElement implements IDMethod
 
         $this->collectIndexedColumns('PRIMARY', $this->getPrimaryKey(), $_indices);
 
-        echo 'here11';
         $_tableIndices = array_merge($this->getIndices(), $this->getUnices());
         foreach ($_tableIndices as $_index) {
             $this->collectIndexedColumns($_index->getName(), $_index->getColumns(), $_indices);
@@ -1159,7 +1158,6 @@ class Table extends ScopedElement implements IDMethod
     {
         $additionalBuilders = array();
         foreach ($this->getBehaviors() as $behavior) {
-            echo 'here10';
             $additionalBuilders = array_merge($additionalBuilders, $behavior->getAdditionalBuilders());
         }
 

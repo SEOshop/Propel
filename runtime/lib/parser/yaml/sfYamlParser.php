@@ -121,7 +121,6 @@ class sfYamlParser
                 if (!is_array($parsedItem)) {
                   throw new InvalidArgumentException(sprintf("Merge items must be arrays at line %s (%s).", $this->getRealCurrentLineNb() + 1, $parsedItem));
                 }
-                  echo 'here9';
                 $merged = array_merge($parsedItem, $merged);
               }
             } else {
