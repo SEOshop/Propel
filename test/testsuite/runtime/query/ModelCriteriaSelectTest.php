@@ -142,8 +142,7 @@ class ModelCriteriaSelectTest extends BookstoreTestBase
         $c->where('Author.FirstName = ?', 'Neal');
         $c->select('FirstName');
         $author = $c->findOne($this->con);
-        var_dump($author);
-        $this->assertEquals(count($author), 1, 'findOne() called after select(string) allows for where() statements');
+        $this->assertEquals($author, 'Neal', 'findOne() called after select(string) allows for where() statements');
         $expectedSQL = "SELECT author.FIRST_NAME AS \"FirstName\" FROM `author` WHERE author.FIRST_NAME = 'Neal' LIMIT 1";
         $this->assertEquals($expectedSQL, $this->con->getLastExecutedQuery(), 'findOne() called after select(string) allows for where() statements');
     }
@@ -174,7 +173,7 @@ class ModelCriteriaSelectTest extends BookstoreTestBase
         $c->where('Author.FirstName = ?', 'Neal');
         $c->select('Title');
         $title = $c->findOne($this->con);
-        $this->assertEquals(count($title), 1, 'findOne() called after select(string) allows for join() statements');
+        $this->assertEquals($title, 'Neal', 'findOne() called after select(string) allows for join() statements');
         $expectedSQL = "SELECT book.TITLE AS \"Title\" FROM `book` INNER JOIN `author` ON (book.AUTHOR_ID=author.ID) WHERE author.FIRST_NAME = 'Neal' LIMIT 1";
         $this->assertEquals($expectedSQL, $this->con->getLastExecutedQuery(), 'findOne() called after select(string) allows for where() statements');
 
