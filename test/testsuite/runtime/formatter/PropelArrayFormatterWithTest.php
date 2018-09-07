@@ -252,7 +252,6 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
         AuthorPeer::clearInstancePool();
         ReviewPeer::clearInstancePool();
         $c = new ModelCriteria('bookstore', 'Book');
-        $c->setFormatter(ModelCriteria::FORMAT_ARRAY);
         $c->add(BookPeer::ISBN, '043935806X');
         $c->leftJoin('Book.Review');
         $c->with('Review');
