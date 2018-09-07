@@ -35,16 +35,11 @@ class PropelArrayFormatter extends PropelFormatter
         if ($this->isWithOneToMany() && $this->hasLimit) {
             throw new PropelException('Cannot use limit() in conjunction with with() on a one-to-many relationship. Please remove the with() call, or the limit() call.');
         }
-
-        var_dump($collection);
-
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
             if ($object = &$this->getStructuredArrayFromRow($row)) {
                 $collection[] = $object;
             }
         }
-
-
         $this->currentObjects = array();
         $this->alreadyHydratedObjects = array();
         $stmt->closeCursor();
@@ -135,50 +130,39 @@ class PropelArrayFormatter extends PropelFormatter
             if (!isset($this->alreadyHydratedObjects[$relAlias][$key])) {
 
                 if ($secondaryObject->isPrimaryKeyNull()) {
-                    var_dump('HERE1');
                     $this->alreadyHydratedObjects[$relAlias][$key] = array();
                 } else {
-                    var_dump('HERE2');
                     $this->alreadyHydratedObjects[$relAlias][$key] = $secondaryObject->toArray();
                 }
             }
 
             if ($modelWith->isPrimary()) {
-                var_dump('HERE3');
                 $arrayToAugment = &$this->alreadyHydratedObjects[$this->class][$mainKey];
             } else {
-                var_dump('HERE4');
                 $arrayToAugment = &$hydrationChain[$modelWith->getLeftPhpName()];
             }
 
             if ($modelWith->isAdd()) {
                 if (!isset($arrayToAugment[$modelWith->getRelationName()]) || !in_array($this->alreadyHydratedObjects[$relAlias][$key], $arrayToAugment[$modelWith->getRelationName()])) {
-                    var_dump('HERE5');
                     $arrayToAugment[$modelWith->getRelationName()][] = &$this->alreadyHydratedObjects[$relAlias][$key];
                 }
             } else {
-                var_dump('HERE6');
                 $arrayToAugment[$modelWith->getRelationName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
             }
-            var_dump('HERE7');
+
             $hydrationChain[$modelWith->getRightPhpName()] = &$this->alreadyHydratedObjects[$relAlias][$key];
         }
 
         // columns added using withColumn()
         foreach ($this->getAsColumns() as $alias => $clause) {
-            var_dump('HERE8');
             $this->alreadyHydratedObjects[$this->class][$mainKey][$alias] = $row[$col];
             $col++;
         }
 
         if ($mainObjectIsNew) {
-            var_dump('SOMETHING');
-            var_dump($this->alreadyHydratedObjects[$this->class][$mainKey]);
             return $this->alreadyHydratedObjects[$this->class][$mainKey];
         } else {
             // we still need to return a reference to something to avoid a warning
-            var_dump('EMPTY');
-            $emptyVariable = [];
             return $emptyVariable;
         }
     }

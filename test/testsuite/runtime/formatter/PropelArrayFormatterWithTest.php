@@ -247,19 +247,17 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
 
     public function testFindOneWithOneToMany()
     {
-        var_dump('testFindOneWithOneToMany');
         BookstoreDataPopulator::populate();
         BookPeer::clearInstancePool();
         AuthorPeer::clearInstancePool();
         ReviewPeer::clearInstancePool();
         $c = new ModelCriteria('bookstore', 'Book');
         $c->setFormatter(ModelCriteria::FORMAT_ARRAY);
-        $c->add(BookPeer::TITLE, 'Harry Potter and the Order of the Phoenix');
+        $c->add(BookPeer::ISBN, '043935806X');
         $c->leftJoin('Book.Review');
         $c->with('Review');
         $con = Propel::getConnection(BookPeer::DATABASE_NAME);
         $books = $c->find($con);
-        var_dump('testFindOneWithOneToMany -------------------------------------------------------- ');
         $this->assertEquals(1, count($books), 'with() does not duplicate the main object');
         $book = $books[0];
         $this->assertEquals($book['Title'], 'Harry Potter and the Order of the Phoenix', 'Main object is correctly hydrated');
@@ -424,7 +422,6 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
 
     public function testFindPkWithOneToMany()
     {
-        var_dump('testFindPkWithOneToMany');
         BookstoreDataPopulator::populate();
         BookPeer::clearInstancePool();
         AuthorPeer::clearInstancePool();
@@ -440,6 +437,5 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
             ->findPk($pk, $con);
         $reviews = $book['Reviews'];
         $this->assertEquals(2, count($reviews), 'Related objects are correctly hydrated');
-        var_dump('testFindPkWithOneToMany -----------------------');
     }
 }
