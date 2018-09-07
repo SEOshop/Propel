@@ -258,6 +258,7 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
         $c->with('Review');
         $con = Propel::getConnection(BookPeer::DATABASE_NAME);
         $books = $c->find($con);
+        var_dump($books);
         $this->assertEquals(1, count($books), 'with() does not duplicate the main object');
         $book = $books[0];
         $this->assertEquals($book['Title'], 'Harry Potter and the Order of the Phoenix', 'Main object is correctly hydrated');
