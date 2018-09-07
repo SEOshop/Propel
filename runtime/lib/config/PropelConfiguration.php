@@ -184,7 +184,6 @@ class PropelConfiguration implements ArrayAccess
                 $result[$ns] = $value;
             }
         }
-        echo 'here2';
         $this->flattenedParameters = array_merge($this->flattenedParameters, $result);
     }
 }

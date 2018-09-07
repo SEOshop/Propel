@@ -254,8 +254,7 @@ class PropelArrayFormatterWithTest extends BookstoreEmptyTestBase
         $c = new ModelCriteria('bookstore', 'Book');
         $c->setFormatter(ModelCriteria::FORMAT_ARRAY);
         $c->add(BookPeer::ISBN, '043935806X');
-        $c->leftJoin('Book.Review');
-        $c->with('Review');
+        $c->leftJoinWith('Book.Review');
         $con = Propel::getConnection(BookPeer::DATABASE_NAME);
         $books = $c->find($con);
         $this->assertEquals(1, count($books), 'with() does not duplicate the main object');
