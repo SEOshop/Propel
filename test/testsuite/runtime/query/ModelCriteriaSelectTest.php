@@ -173,7 +173,7 @@ class ModelCriteriaSelectTest extends BookstoreTestBase
         $c->where('Author.FirstName = ?', 'Neal');
         $c->select('Title');
         $title = $c->findOne($this->con);
-        $this->assertEquals($title, 'Neal', 'findOne() called after select(string) allows for join() statements');
+        $this->assertEquals($title, 'Quicksilver', 'findOne() called after select(string) allows for join() statements');
         $expectedSQL = "SELECT book.TITLE AS \"Title\" FROM `book` INNER JOIN `author` ON (book.AUTHOR_ID=author.ID) WHERE author.FIRST_NAME = 'Neal' LIMIT 1";
         $this->assertEquals($expectedSQL, $this->con->getLastExecutedQuery(), 'findOne() called after select(string) allows for where() statements');
 
