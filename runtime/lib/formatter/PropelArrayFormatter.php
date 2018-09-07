@@ -111,7 +111,7 @@ class PropelArrayFormatter extends PropelFormatter
         foreach ($this->getWith() as $relAlias => $modelWith) {
 
             if ($modelWith->getModelName() == 'Review') {
-                echo 'Here1';
+                var_dump($modelWith->isSingleTableInheritance());
             }
 
             // determine class to use
