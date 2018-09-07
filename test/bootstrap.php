@@ -5,3 +5,7 @@ if (file_exists($file = dirname(__FILE__) . '/../vendor/autoload.php')) {
 
     require_once $file;
 }
+
+if (!class_exists('PHPUnit_Framework_TestCase') && class_exists('PHPUnit\Framework\TestCase')) {
+    class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');
+}
