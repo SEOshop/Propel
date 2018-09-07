@@ -159,12 +159,12 @@ class PropelArrayFormatter extends PropelFormatter
             $col++;
         }
 
-        var_dump($this->alreadyHydratedObjects);
-
         if ($mainObjectIsNew) {
+            var_dump('SOMETHING');
             return $this->alreadyHydratedObjects[$this->class][$mainKey];
         } else {
             // we still need to return a reference to something to avoid a warning
+            var_dump('EMPTY');
             return $emptyVariable;
         }
     }
