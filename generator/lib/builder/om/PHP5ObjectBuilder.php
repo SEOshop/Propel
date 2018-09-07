@@ -479,8 +479,8 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
         $clo = strtolower($col->getName());
         $script .= "
     /**
-     * Whether the lazy-loaded \$$clo value has been loaded from database.
-     * This is necessary to avoid repeated lookups if \$$clo column is null in the db.
+     * Whether the lazy-loaded \${$clo} value has been loaded from database.
+     * This is necessary to avoid repeated lookups if \${$clo} column is null in the db.
      * @var        boolean
      */";
     }
@@ -508,7 +508,7 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
         $clo = strtolower($col->getName());
         $script .= "
     /**
-     * The unserialized \$$clo value - i.e. the persisted object.
+     * The unserialized \${$clo} value - i.e. the persisted object.
      * This is necessary to avoid repeated calls to unserialize() at runtime.
      * @var        object
      */";
@@ -1046,8 +1046,8 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
             \$this->$cloUnserialized = array();
         }
         if (!\$this->$cloUnserialized && null !== \$this->$clo) {
-            \$$cloUnserialized = substr(\$this->$clo, 2, -2);
-            \$this->$cloUnserialized = \$$cloUnserialized ? explode(' | ', \$$cloUnserialized) : array();
+            \${$cloUnserialized} = substr(\$this->$clo, 2, -2);
+            \$this->$cloUnserialized = \${$cloUnserialized} ? explode(' | ', \${$cloUnserialized}) : array();
         }
 
         return \$this->$cloUnserialized;";
@@ -3732,14 +3732,14 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
                 // return empty collection
                 \$this->init".$this->getRefFKPhpNameAffix($refFK, $plural = true)."();
             } else {
-                \$$collName = $fkQueryClassname::create(null, \$criteria)
+                \${$collName} = $fkQueryClassname::create(null, \$criteria)
                     ->filterBy" . $this->getFKPhpNameAffix($refFK) . "(\$this)
                     ->find(\$con);
                 if (null !== \$criteria) {
-                    if (false !== \$this->{$collName}Partial && count(\$$collName)) {
+                    if (false !== \$this->{$collName}Partial && count(\${$collName})) {
                       \$this->init".$this->getRefFKPhpNameAffix($refFK, $plural = true)."(false);
 
-                      foreach(\$$collName as \$obj) {
+                      foreach(\${$collName} as \$obj) {
                         if (false == \$this->{$collName}->contains(\$obj)) {
                           \$this->{$collName}->append(\$obj);
                         }
@@ -3748,7 +3748,7 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
                       \$this->{$collName}Partial = true;
                     }
 
-                    return \$$collName;
+                    return \${$collName};
                 }
 
                 if(\$partial && \$this->$collName) {
@@ -3759,7 +3759,7 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
                     }
                 }
 
-                \$this->$collName = \$$collName;
+                \$this->$collName = \${$collName};
                 \$this->{$collName}Partial = false;
             }
         }
@@ -4173,13 +4173,13 @@ abstract class ".$this->getClassname()." extends ".$parentClass." ";
                 // return empty collection
                 \$this->init{$relatedName}();
             } else {
-                \$$collName = $relatedQueryClassName::create(null, \$criteria)
+                \${$collName} = $relatedQueryClassName::create(null, \$criteria)
                     ->filterBy{$selfRelationName}(\$this)
                     ->find(\$con);
                 if (null !== \$criteria) {
-                    return \$$collName;
+                    return \${$collName};
                 }
-                \$this->$collName = \$$collName;
+                \$this->$collName = \${$collName};
             }
         }
 

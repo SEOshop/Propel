@@ -734,7 +734,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
             }
             $script .= "
      *
-     * @param     mixed \$$variableName The value to use as filter.
+     * @param     mixed \${$variableName} The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => \$minValue, 'max' => \$maxValue) for intervals.";
@@ -747,7 +747,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
      * \$query->filterBy$colPhpName(array('max' => 'yesterday')); // WHERE $colName > '2011-03-13'
      * </code>
      *
-     * @param     mixed \$$variableName The value to use as filter.
+     * @param     mixed \${$variableName} The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -755,7 +755,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
      *              Use associative array('min' => \$minValue, 'max' => \$maxValue) for intervals.";
         } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
             $script .= "
-     * @param     array \$$variableName The values to use as filter.";
+     * @param     array \${$variableName} The values to use as filter.";
         } elseif ($col->isTextType()) {
             $script .= "
      * Example usage:
@@ -764,7 +764,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
      * \$query->filterBy$colPhpName('%fooValue%'); // WHERE $colName LIKE '%fooValue%'
      * </code>
      *
-     * @param     string \$$variableName The value to use as filter.
+     * @param     string \${$variableName} The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)";
         } elseif ($col->isBooleanType()) {
             $script .= "
@@ -774,14 +774,14 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
      * \$query->filterBy$colPhpName('yes'); // WHERE $colName = true
      * </code>
      *
-     * @param     boolean|string \$$variableName The value to use as filter.
+     * @param     boolean|string \${$variableName} The value to use as filter.
      *              Non-boolean arguments are converted using the following rules:
      *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').";
         } else {
             $script .= "
-     * @param     mixed \$$variableName The value to use as filter";
+     * @param     mixed \${$variableName} The value to use as filter";
         }
         $script .= "
      * @param     string \$comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
@@ -795,16 +795,16 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 
         $script .= "
      */
-    public function filterBy$colPhpName(\$$variableName = null, \$comparison = null)
+    public function filterBy$colPhpName(\${$variableName} = null, \$comparison = null)
     {";
         if ($col->isPrimaryKey() && ($col->getType() == PropelTypes::INTEGER || $col->getType() == PropelTypes::BIGINT)) {
             $script .= "
-        if (is_array(\$$variableName) && null === \$comparison) {
+        if (is_array(\${$variableName}) && null === \$comparison) {
             \$comparison = Criteria::IN;
         }";
         } elseif ($col->isNumericType() || $col->isTemporalType()) {
             $script .= "
-        if (is_array(\$$variableName)) {
+        if (is_array(\${$variableName})) {
             \$useMinMax = false;
             if (isset(\${$variableName}['min'])) {
                 \$this->addUsingAlias($qualifiedName, \${$variableName}['min'], Criteria::GREATER_EQUAL);
@@ -823,14 +823,14 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
         }";
         } elseif ($col->getType() == PropelTypes::OBJECT) {
             $script .= "
-        if (is_object(\$$variableName)) {
-            \$$variableName = serialize(\$$variableName);
+        if (is_object(\${$variableName})) {
+            \${$variableName} = serialize(\${$variableName});
         }";
         } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
             $script .= "
         \$key = \$this->getAliasedColName($qualifiedName);
         if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
-            foreach (\$$variableName as \$value) {
+            foreach (\${$variableName} as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
                     \$this->addAnd(\$key, \$value, Criteria::LIKE);
@@ -841,7 +841,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 
             return \$this;
         } elseif (\$comparison == Criteria::CONTAINS_SOME) {
-            foreach (\$$variableName as \$value) {
+            foreach (\${$variableName} as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
                     \$this->addOr(\$key, \$value, Criteria::LIKE);
@@ -852,7 +852,7 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
 
             return \$this;
         } elseif (\$comparison == Criteria::CONTAINS_NONE) {
-            foreach (\$$variableName as \$value) {
+            foreach (\${$variableName} as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
                     \$this->addAnd(\$key, \$value, Criteria::NOT_LIKE);
@@ -867,20 +867,20 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
         } elseif ($col->getType() == PropelTypes::ENUM) {
             $script .= "
         \$valueSet = " . $this->getPeerClassname() . "::getValueSet(" . $this->getColumnConstant($col) . ");
-        if (is_scalar(\$$variableName)) {
-            if (!in_array(\$$variableName, \$valueSet)) {
-                throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$$variableName));
+        if (is_scalar(\${$variableName})) {
+            if (!in_array(\${$variableName}, \$valueSet)) {
+                throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \${$variableName}));
             }
-            \$$variableName = array_search(\$$variableName, \$valueSet);
-        } elseif (is_array(\$$variableName)) {
+            \${$variableName} = array_search(\${$variableName}, \$valueSet);
+        } elseif (is_array(\${$variableName})) {
             \$convertedValues = array();
-            foreach (\$$variableName as \$value) {
+            foreach (\${$variableName} as \$value) {
                 if (!in_array(\$value, \$valueSet)) {
                     throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$value));
                 }
                 \$convertedValues []= array_search(\$value, \$valueSet);
             }
-            \$$variableName = \$convertedValues;
+            \${$variableName} = \$convertedValues;
             if (null === \$comparison) {
                 \$comparison = Criteria::IN;
             }
@@ -888,22 +888,22 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
         } elseif ($col->isTextType()) {
             $script .= "
         if (null === \$comparison) {
-            if (is_array(\$$variableName)) {
+            if (is_array(\${$variableName})) {
                 \$comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', \$$variableName)) {
-                \$$variableName = str_replace('*', '%', \$$variableName);
+            } elseif (preg_match('/[\%\*]/', \${$variableName})) {
+                \${$variableName} = str_replace('*', '%', \${$variableName});
                 \$comparison = Criteria::LIKE;
             }
         }";
         } elseif ($col->isBooleanType()) {
             $script .= "
-        if (is_string(\$$variableName)) {
-            \$$colName = in_array(strtolower(\$$variableName), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        if (is_string(\${$variableName})) {
+            \${$colName} = in_array(strtolower(\${$variableName}), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }";
         }
         $script .= "
 
-        return \$this->addUsingAlias($qualifiedName, \$$variableName, \$comparison);
+        return \$this->addUsingAlias($qualifiedName, \${$variableName}, \$comparison);
     }
 ";
     }
@@ -922,33 +922,33 @@ abstract class ".$this->getClassname()." extends " . $parentClass . "
         $script .= "
     /**
      * Filter the query on the $colName column
-     * @param     mixed \$$variableName The value to use as filter
+     * @param     mixed \${$variableName} The value to use as filter
      * @param     string \$comparison Operator to use for the column comparison, defaults to Criteria::CONTAINS_ALL
      *
      * @return " . $this->getStubQueryBuilder()->getClassname() . " The current query, for fluid interface
      */
-    public function filterBy$singularPhpName(\$$variableName = null, \$comparison = null)
+    public function filterBy$singularPhpName(\${$variableName} = null, \$comparison = null)
     {
         if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
-            if (is_scalar(\$$variableName)) {
-                \$$variableName = '%| ' . \$$variableName . ' |%';
+            if (is_scalar(\${$variableName})) {
+                \${$variableName} = '%| ' . \${$variableName} . ' |%';
                 \$comparison = Criteria::LIKE;
             }
         } elseif (\$comparison == Criteria::CONTAINS_NONE) {
-            \$$variableName = '%| ' . \$$variableName . ' |%';
+            \${$variableName} = '%| ' . \${$variableName} . ' |%';
             \$comparison = Criteria::NOT_LIKE;
             \$key = \$this->getAliasedColName($qualifiedName);
             if (\$this->containsKey(\$key)) {
-                \$this->addAnd(\$key, \$$variableName, \$comparison);
+                \$this->addAnd(\$key, \${$variableName}, \$comparison);
             } else {
-                \$this->addAnd(\$key, \$$variableName, \$comparison);
+                \$this->addAnd(\$key, \${$variableName}, \$comparison);
             }
             \$this->addOr(\$key, null, Criteria::ISNULL);
 
             return \$this;
         }
 
-        return \$this->addUsingAlias($qualifiedName, \$$variableName, \$comparison);
+        return \$this->addUsingAlias($qualifiedName, \${$variableName}, \$comparison);
     }
 ";
     }
