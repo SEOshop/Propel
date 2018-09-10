@@ -1,9 +1,8 @@
 {
-  "name": "seoshop/propel",
+  "name": "SEOshop/Propel",
   "description": "Propel for PHP7.2 and PHP 5.6.",
-  "keywords": ["orm", "active record", "mapping", "database", "persistence"],
-  "homepage": "http://www.propelorm.org/",
   "license": "MIT",
+  "version": "1.1",
   "authors": [
     {
       "name": "William Durand",
@@ -23,6 +22,5 @@
     "php": ">=5.6",
     "phing/phing": "2.16.0"
   },
-  "version": "1.0",
   "bin": ["generator/bin/propel-gen", "generator/bin/propel-gen.bat"]
 }
