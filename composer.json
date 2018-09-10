@@ -12,7 +12,7 @@
     },
     {
       "name": "Roberto Dugim - Just make it PHP 7.2 friendly",
-      "email": "roberto.dugim@lightspeedhq.com",
+      "email": "roberto.dugim@lightspeedhq.com"
     }
   ],
   "autoload": {
